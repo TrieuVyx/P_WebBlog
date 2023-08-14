@@ -1,0 +1,118 @@
+﻿@model WebBlogAPI.Models.UserModels;
+
+@{
+
+    ViewBag.Title = "Register Page";
+
+}
+
+<div class="form-login d-flex justify-content-center align-content-center " style="width:500px; height:700px; margin:auto; flex-wrap:wrap">
+
+    <div class="w-100">
+        <!-- Pills navs -->
+        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link "
+                   asp-controller="User" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item " role="presentation">
+                <a class="nav-link active"
+                   asp-action="Register" asp-controller="User">Register</a>
+            </li>
+        </ul>
+        <!-- Pills navs -->
+
+    </div>
+
+    <!-- Pills content -->
+    <!--
+         <div class="text-center mb-3">
+                <p>Sign in with:</p>
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-google"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-twitter"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-github"></i>
+                </button>
+            </div>
+
+            <p class="text-center">or:</p>
+    -->
+
+    <div class="tab-pane fade show active w-100" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        {
+            <div class="alert alert-success">
+                @ViewBag.SuccessMessage
+            </div>
+
+        }
+       
+        <form asp-action="Register" method="post">
+                <!-- Usernam input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="Username">Username</label>
+                    <input type="text" class="form-control" asp-for="Username" /> 
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="Email">Email</label>
+                    <input type="email" class="form-control" asp-for="Email"  />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="Password">Password</label>
+                    <input type="password"  class="form-control" asp-for="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <!-- Confirm Password input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="Confirmpass">ConfirmPassword</label>
+                    <input type="password" id="loginconPassword" class="form-control" asp-for="Confirmpass"  />
+                    <span asp-validation-for="Confirmpass" class="text-danger"></span>
+                </div>
+                <!-- 2 column grid layout -->
+                <div class="row mb-4">
+                    <div class="col-md-6 d-flex justify-content-center">
+                        <!-- Checkbox -->
+
+                    </div>
+
+                    <div class="col-md-6 d-flex justify-content-center">
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+                
+                <!-- Submit button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+                </div>
+                <div class="text-center">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                </div>
+            <!-- Register buttons -->
+            
+        </form>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
