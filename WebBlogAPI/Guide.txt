@@ -1,0 +1,5 @@
+﻿chay 2 lenh nay de bat csdl
+Add-Migration "commit whatever"
+Update-Database
+
+
