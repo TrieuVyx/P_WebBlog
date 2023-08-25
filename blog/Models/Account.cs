@@ -17,13 +17,13 @@ public partial class Account
 
     public string? Salt { get; set; }
 
-    public bool? Active { get; set; }
+    public bool Active { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
-    public int? RoleId { get; set; }
-
     public DateTime? LastLogin { get; set; }
+
+    public int? RoleId { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 

@@ -1,19 +1,17 @@
-﻿@model IEnumerable<blog.Models.Category>
+﻿@using PagedList.Core.Mvc;
+@model PagedList.Core.IPagedList<blog.Models.Category>
+
+
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>QUẢN LÝ DANH MỤC</h1>
-
-
-
 <div class="col-md-12 col-sm-12 col-xs-12">
-  
     <div class="x_panel">
         <div class="x_title">
-            <h2>Table design <small>Custom design</small></h2>
+            <h2>QUẢN LÝ DANH MỤC <small>Custom design</small></h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -44,9 +42,9 @@
                         <tr class="headings">
 
                             <th class="column-title">ID </th>
-                            <th class="column-title">TÊN DANH MỤC </th>
-                            <th class="column-title">TRẠNG THÁI </th>
-                            <th class="column-title">CHỈNH SỬA </th>
+                            <th class="column-title"> CategoryName </th>
+                            <th class="column-title"> Published </th>
+                            <th class="column-title"># </th>
                             <th class="bulk-actions" colspan="7">
                                 <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                             </th>
@@ -64,7 +62,15 @@
 
                                     <th scope="row">@item.CategoryId</th>
                                     <td>@item.CategoryName</td>
-                                    <td>@item.Published</td>
+                                    @if (item.Published)
+                                    {
+                                        <td>Public</td>
+                                        
+                                    }else{
+                                        <td>Private</td>
+                                    }
+                                    
+                                    
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-success">Edit</a>
                                         <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-warning">Details</a>
@@ -79,7 +85,11 @@
                     </tbody>
                 </table>
             </div>
-
+            <div aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-action="Index" asp-controller="Categories" />
+                </ul>
+            </div>
 
         </div>
     </div>

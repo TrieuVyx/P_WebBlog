@@ -19,19 +19,19 @@ public partial class Category
 
     public string? Thumb { get; set; }
 
-    public bool? Published { get; set; }
+    public string? Icon { get; set; }
+
+    public string? Cover { get; set; }
+
+    public string? Description { get; set; }
+
+    public bool Published { get; set; }
 
     public int? Ordering { get; set; }
 
     public int? Parents { get; set; }
 
     public int? Levels { get; set; }
-
-    public string? Icon { get; set; }
-
-    public string? Cover { get; set; }
-
-    public string? Description { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 }

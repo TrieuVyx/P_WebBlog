@@ -5,27 +5,27 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Details Role</h1>
+<h2>Details</h2>
 
 <div>
-  
+    <h4>Role</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+    <dl class="dl-horizontal">
+        <dt>
             @Html.DisplayNameFor(model => model.RoleName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.RoleName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt>
             @Html.DisplayNameFor(model => model.RoleDescription)
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.RoleDescription)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.RoleId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.RoleId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

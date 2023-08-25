@@ -31,20 +31,15 @@ public partial class BlogDbContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
+            entity.HasKey(e => e.AccountId).HasName("PK_Accounts");
+
             entity.ToTable("Account");
 
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.FullName).HasMaxLength(50);
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Phone)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.Salt)
-                .HasMaxLength(10)
-                .IsUnicode(false);
+            entity.Property(e => e.Salt).HasMaxLength(10);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -62,9 +57,7 @@ public partial class BlogDbContext : DbContext
         {
             entity.Property(e => e.PostId).HasColumnName("PostID");
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
-            entity.Property(e => e.Author).HasMaxLength(255);
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.IsHot).HasColumnName("isHot");
             entity.Property(e => e.IsNewFeed).HasColumnName("isNewFeed");
 
@@ -80,8 +73,6 @@ public partial class BlogDbContext : DbContext
         modelBuilder.Entity<Role>(entity =>
         {
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.RoleDescription).HasMaxLength(50);
-            entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

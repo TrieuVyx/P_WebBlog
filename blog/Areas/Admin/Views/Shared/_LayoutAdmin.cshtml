@@ -68,18 +68,18 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-edit"></i> Bài viết <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="form.html">Role Form</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Posts" asp-action="Index">Quản lý bài đăng</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-desktop"></i> Hệ Thống <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="general_elements.html">Quản lý người dùng</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Accounts" asp-action="Index">Quản lý người dùng</a></li>
                                         <li><a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quản lý truy cập</a></li>
                                         <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index">Quản lý danh mục</a></li>
-                                 
+                                      
                                     </ul>
                                 </li>
                                 <li>
@@ -268,6 +268,7 @@
 
     <!-- Custom Theme Scripts -->
     <script src="~/adminaccess/build/js/custom.min.js"></script>
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>
