@@ -31,7 +31,10 @@ public partial class Post
 
     public bool IsNewFeed { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
     public virtual Account? Account { get; set; }
 
     public virtual Category? Category { get; set; }
+    public int Views { get; internal set; }
 }

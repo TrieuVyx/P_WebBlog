@@ -6,10 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using blog.Models;
+using Azure;
+using PagedList.Core;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace blog.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly BlogDbContext _context;
@@ -20,11 +25,17 @@ namespace blog.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-              return _context.Roles != null ? 
+            var pageNumber = page == null || page < 0 ? 1 : page.Value;
+            var pageSize = 7;
+            var lsRoles = _context.Roles.OrderByDescending(x => x.RoleId);
+            PagedList<Role> models = new PagedList<Role>(lsRoles, pageNumber, pageSize);
+            ViewBag.CurrentPage = pageNumber;
+            return View(models);
+          /*  return _context.Roles != null ? 
                           View(await _context.Roles.ToListAsync()) :
-                          Problem("Entity set 'BlogDbContext.Roles'  is null.");
+                          Problem("Entity set 'BlogDbContext.Roles'  is null.");*/
         }
 
         // GET: Admin/Roles/Details/5
