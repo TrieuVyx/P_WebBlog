@@ -1,102 +1,101 @@
-﻿@model IEnumerable<blog.Models.Post>
-
+﻿@*@model IEnumerable<blog.Models.Post>*@
+@model PagedList.Core.IPagedList<blog.Models.Post>
+@using PagedList.Core.Mvc;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShortContents)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Thumb)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alias)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Published)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsHot)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsNewFeed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Account)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShortContents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thumb)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Published)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsHot)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsNewFeed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Account.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="col-md-12 col-sm-12 col-xs-12">
+
+    <div class="x_panel">
+
+        <div class="x_content">
+
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <div class="table-responsive">
+
+                <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                        @foreach (var item in Model)
+                        {
+                            
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(modelitem => item.Title)
+
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.ShortContents)
+                            
+                            </th>
+                       
+                      
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.Author)
+                          
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.Tags)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.Published)
+                            </th>
+                       
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.Account)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(modelitem => item.Category)
+                            </th>
+                            <th>#</th>
+                        </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShortContents)
+                                </td>
+                          
+                          
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tags)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Published)
+                                </td>
+                            
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Account.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.PostId" class="btn btn-success">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.PostId" class="btn btn-warning">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@item.PostId" class="btn btn-danger"> Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-action="Index" asp-controller="Posts" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

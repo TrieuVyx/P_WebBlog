@@ -11,11 +11,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName"name="FullName" class="form-control" />
+                <input asp-for="FullName" class="form-control" />
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -56,8 +56,8 @@
                 <span asp-validation-for="LastLogin" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Role.RoleDescription" class="control-label"></label>
-                <select asp-for="Role.RoleDescription" class="form-control" name="RoleId" asp-items="ViewBag.RoleId"></select>
+                <label asp-for="RoleId" class="control-label"></label>
+                <select asp-for="RoleId" class ="form-control" asp-items="ViewBag.RoleId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

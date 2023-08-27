@@ -38,8 +38,11 @@ public partial class BlogDbContext : DbContext
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
+            entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.Salt).HasMaxLength(10);
+            entity.Property(e => e.Salt)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -58,6 +61,7 @@ public partial class BlogDbContext : DbContext
             entity.Property(e => e.PostId).HasColumnName("PostID");
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.IsHot).HasColumnName("isHot");
             entity.Property(e => e.IsNewFeed).HasColumnName("isNewFeed");
 

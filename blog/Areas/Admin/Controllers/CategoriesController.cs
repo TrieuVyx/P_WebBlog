@@ -10,10 +10,12 @@ using Azure;
 using PagedList.Core;
 using blog.Helpers;
 using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace blog.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly BlogDbContext _context;
@@ -130,7 +132,7 @@ namespace blog.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Title,Alias,MetaDesc,MetaKey,Thumb,Published,Ordering,Parents,Levels,Icon,Cover,Description")] Category category, Microsoft.AspNetCore.Http.IFormFile fThumb, Microsoft.AspNetCore.Http.IFormFile fIcon, Microsoft.AspNetCore.Http.IFormFile fCover)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Title,Alias,MetaDesc,MetaKey,Thumb,Published,Ordering,Parents,Levels,Icon,Cover,Description")] Category category, IFormFile fThumb, IFormFile fIcon, IFormFile fCover)
         {
             if (id != category.CategoryId)
             {
@@ -142,6 +144,7 @@ namespace blog.Areas.Admin.Controllers
                 try
 
                 {
+                    category.Alias = Utilities.REG(category.CategoryName);
                     if (category.Parents == null)
                     {
                         category.Levels = 1;
@@ -155,23 +158,25 @@ namespace blog.Areas.Admin.Controllers
                     if (fThumb != null)
                     {
                         string extension = Path.GetExtension(fThumb.FileName);
-                        string Newname = Utilities.REG(category.CategoryName) + "preview" + extension;
+                        string Newname = Utilities.REG(category.CategoryName) + "preview_" + extension;
                         category.Thumb = await Utilities.UpLoadFile(fThumb, @"categories\", Newname.ToLower());
                     }
                     if (fCover != null)
                     {
                         string extension = Path.GetExtension(fCover.FileName);
-                        string Newname = Utilities.REG(category.CategoryName) + extension;
-                        category.Cover = await Utilities.UpLoadFile(fCover, @"cover\", Newname.ToLower());
+                        string Newname = "cover_" + Utilities.REG(category.CategoryName) + extension;
+                        category.Cover = await Utilities.UpLoadFile(fCover, @"covers\", Newname.ToLower());
                     }
                     if (fIcon != null)
                     {
                         string extension = Path.GetExtension(fIcon.FileName);
-                        string Newname = Utilities.REG(category.CategoryName) + extension;
-                        category.Icon = await Utilities.UpLoadFile(fIcon, @"icon\", Newname.ToLower());
+                        string Newname = "icon_" + Utilities.REG(category.CategoryName) + extension;
+                        category.Icon = await Utilities.UpLoadFile(fIcon, @"icons\", Newname.ToLower());
                     }
+
                     _context.Update(category);
                     await _context.SaveChangesAsync();
+               
                 }
                 catch (DbUpdateConcurrencyException)
                 {

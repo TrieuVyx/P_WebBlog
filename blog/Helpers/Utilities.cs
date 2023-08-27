@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using blog.Models;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 namespace blog.Helpers
 {
@@ -70,15 +72,32 @@ namespace blog.Helpers
   
         public static string GetRanDomKey(int length = 5)
         {
-            string pattern = "@123456789zxcvbnmasdfghjklqwertyuiop[]{}:~!@#$%^&*()+";
-            Random rd = new Random();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            using (var rng = RandomNumberGenerator.Create())
             {
-                sb.Append(pattern[rd.Next(0,pattern.Length)]);
-
-            }return sb.ToString();
+                byte[] data = new byte[length];
+                rng.GetBytes(data);
+                StringBuilder result = new StringBuilder(length);
+                foreach (byte b in data)
+                {
+                    result.Append(chars[b % chars.Length]);
+                }
+                return result.ToString();
+            }
         }
-    
+        public static string HashPassword(string password, string salt, int hashLength)
+        {
+            byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
+
+            byte[] hashBytes = KeyDerivation.Pbkdf2(
+                password: password,
+                salt: saltBytes,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: hashLength);
+
+            return Convert.ToBase64String(hashBytes);
+        }
+
     }
 }
