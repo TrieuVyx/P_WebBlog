@@ -160,30 +160,43 @@ namespace blog.Controllers
             {
                 var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId.ToString() == accountId);
 
-                if (account != null)
+                var post = await _context.Posts
+                    .Include(p => p.Account)
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(m => m.PostId == id);
+
+                if (post == null)
                 {
-                    var posts = await _context.Posts.ToListAsync();
-                    var viewModel = new PostAccountView
-                    {
-                        Posts = posts,
-                        Account = account
-                    };
-
-                    return View(viewModel);
+                    return NotFound();
                 }
+
+                var postDetailsViewModel = new PostDetailsViewModel
+                {
+                    Post = post,
+                    Account = account
+                };
+
+                return View("Details", postDetailsViewModel);
             }
-
-            var post = await _context.Posts
-                .Include(p => p.Account)
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.PostId == id);
-
-            if (post == null)
+            else
             {
-                return NotFound();
-            }
+                var post = await _context.Posts
+                    .Include(p => p.Account)
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(m => m.PostId == id);
 
-            return View(post);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                var postDetailsViewModel = new PostDetailsViewModel
+                {
+                    Post = post
+                };
+
+                return View("Details", postDetailsViewModel);
+            }
         }
         public IActionResult Category()
         {
