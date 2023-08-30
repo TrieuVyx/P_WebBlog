@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
+        @*<form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group col-md-5">
                 <label asp-for="CategoryName" class="control-label">TÊN DANH MỤC</label>
@@ -78,6 +78,92 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+    *@
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group ">
+                <label asp-for="CategoryName" class="control-label">TÊN DANH MỤC</label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Tiêu đề danh mục</label>
+                <input asp-for="Title" name="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label">Phiên bản rút gọn</label>
+                <input asp-for="Alias" name="Alias" class="form-control" />
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaDesc" class="control-label">Mô tả meta</label>
+                <input asp-for="MetaDesc" name="MetaDesc" class="form-control" />
+                <span asp-validation-for="MetaDesc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaKey" class="control-label">Từ khóa meta</label>
+                <input asp-for="MetaKey" name="MetaKey" class="form-control" />
+                <span asp-validation-for="MetaKey" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Thumb" class="control-label">Hình ảnh đại diện</label>
+                <input type="file" name="Thumb" class="form-control" />
+                <span asp-validation-for="Thumb" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Icon" class="control-label">Biểu tượng</label>
+                <input type="file" name="Icon" class="form-control" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cover" class="control-label">Hình ảnh bìa</label>
+                <input type="file" name="Cover" class="form-control" />
+                <span asp-validation-for="Cover" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Mô tả chi tiết</label>
+                <textarea asp-for="Description" name="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Published" class="control-label">Đã xuất bản</label>
+                <input asp-for="Published" name="Published" type="checkbox" />
+                <span asp-validation-for="Published" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Ordering" class="control-label">Thứ tự sắp xếp</label>
+                <input asp-for="Ordering" name="Ordering" class="form-control" />
+                <span asp-validation-for="Ordering" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Parents" class="control-label">ID danh mục cha</label>
+                <input asp-for="Parents" name="Parents" class="form-control" />
+                <span asp-validation-for="Parents" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Levels" class="control-label">Số cấp độ</label>
+                <input asp-for="Levels" name="Levels" class="form-control" />
+                <span asp-validation-for="Levels" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+
     </div>
 </div>
 

@@ -14,7 +14,7 @@ using System.Data;
 namespace blog.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly BlogDbContext _context;

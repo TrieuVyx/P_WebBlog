@@ -1,0 +1,52 @@
+﻿@model blog.Models.Post
+
+@{
+    ViewData["Title"] = "Details";
+}
+@await Html.PartialAsync("_HeaderNavBar", Model.Account)
+<header class="masthead" style="background-image: url('@Url.Content(Model.Thumb)'); height: 300px; background-position: center; background-size: cover;background-repeat: no-repeat;">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading text-dark">
+                    <h1 style="color: #fff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">@Html.DisplayFor(model => model.Title)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            <div class="post-preview">
+                <span>
+                    <h2 class="post-title">@Html.DisplayFor(model => model.ShortContents)</h2>
+                    <h3 class="post-subtitle">@Html.DisplayFor(model => model.Contents)</h3>
+                </span>
+                <p class="post-meta">
+                    Posted by
+                    <a href="#">@Html.DisplayFor(model => model.Author)</a>
+                    on @Html.DisplayFor(model => model.CreatedDate)
+                </p>
+                <span>@Html.DisplayFor(model => model.Alias)</span>
+                <hr class="my-4">
+
+                <span>Tags: @Html.DisplayFor(model => model.Tags)</span>
+
+            </div>
+            <!-- Divider-->
+            <hr class="my-4">
+            
+            <!-- Pager-->
+            <div class="d-flex justify-content-end mb-4">
+                <a class="text-dark text-decoration-none btn btn-primary"
+                   asp-controller="Home"
+                   asp-action="Index">Older Posts →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@await Html.PartialAsync("_FooterNavBar")

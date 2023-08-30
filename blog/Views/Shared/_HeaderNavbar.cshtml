@@ -1,0 +1,131 @@
+﻿@model blog.Models.Account
+<!-- CSS Bootstrap 5 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<!-- JavaScript Bootstrap 5 (requires Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<header>
+
+    <style>
+        .dropdown-toggle {
+            /* Style mặc định cho dropdown-toggle */
+        }
+
+        .dropdown-menu {
+            /* Style mặc định cho dropdown-menu */
+            display: none; /* Ẩn menu dropdown mặc định */
+        }
+
+            .dropdown-toggle:hover + .dropdown-menu,
+            .dropdown-menu:hover {
+                /* Hiển thị menu dropdown khi hover vào dropdown-toggle hoặc dropdown-menu */
+                display: block;
+                right: 5px;
+                top: 10px;
+            }
+    </style>
+    <section style="background-color: #eee;">
+        <div class="container py-2">
+            <div class="row">
+
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                    <!-- Container wrapper -->
+                    <div class="container-fluid">
+                        <!-- Toggle button -->
+                        <button class="navbar-toggler"
+                                type="button"
+                                data-mdb-toggle="collapse"
+                                data-mdb-target="#navbarSupportedContent"
+                                aria-controls="navbarSupportedContent"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <i class="fas fa-bars"></i>
+                        </button>
+
+                        <!-- Collapsible wrapper -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <!-- Navbar brand -->
+                            <a class="navbar-brand mt-2 mt-lg-0" asp-controller="Home" asp-action="Index">
+                                <img src="https://ik.imagekit.io/alejk5lwty/4a.png?updatedAt=1691287357573"
+                                     height="50"
+                                     alt="MDB Logo"
+                                     loading="lazy" />
+                            </a>
+                            <!-- Left links -->
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                @*<li class="nav-item">
+                                    <a class="nav-link" href="#">Archive</a>
+                                </li>*@
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Category">Categogy</a>
+                                </li>
+                                @*<li class="nav-item">
+                                    <a class="nav-link" href="#">About</a>
+                                </li>*@
+                               
+                            </ul>
+                            <!-- Left links -->
+                        </div>
+                        <!-- Collapsible wrapper -->
+                        <!-- Right elements -->
+                        <div class="d-flex align-items-center avatar-dropdown">
+                            <!-- Avatar -->
+                   
+                            @if (Model !=null && !string.IsNullOrEmpty(@Model.FullName))
+                            {
+                                <div class="avatar">
+                                    <!-- Hiển thị avatar của người dùng -->
+                                    <img src="@Model.ProfileImage"
+                                         class="rounded-circle"
+                                         height="50"
+                                         alt="Avatar"
+                                         loading="lazy" />
+                                </div>
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                                       href="#"
+                                       id="navbarDropdownMenuAvatar"
+                                       role="button"
+                                       data-mdb-toggle="dropdown"
+                                       aria-expanded="false">
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Profile" asp-action="Profile">My profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item">Settings</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("Logout", "User")">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="btn-group">
+                                    <a class="btn btn-primary active"
+                                       asp-controller="User"
+                                       asp-action="Login"
+                                       asp-area="">Login</a>
+                                    <a class="btn btn-primary"
+                                       asp-controller="User"
+                                       asp-action="Register"
+                                       asp-area="">Register</a>
+                                </div>
+                            }
+                        </div>
+                        <!-- Right elements -->
+                    </div>
+                    <!-- Container wrapper -->
+                </nav>
+                <!-- Navbar -->
+            </div>
+        </div>
+    </section>
+</header>

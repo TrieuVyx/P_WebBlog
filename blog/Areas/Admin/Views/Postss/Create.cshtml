@@ -11,23 +11,24 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Title" class="form-control" />
             </div>
+
             <div class="form-group">
-                <label asp-for="ShortContents" class="control-label"></label>
-                <input asp-for="ShortContents" class="form-control" />
-                <span asp-validation-for="ShortContents" class="text-danger"></span>
+                <label for="ShortContents">Short Contents</label>
+                <input type="text" id="ShortContents" name="ShortContents" class="form-control" />
             </div>
+
             <div class="form-group">
-                <label asp-for="Contents" class="control-label"></label>
-                <input asp-for="Contents" class="form-control" />
-                <span asp-validation-for="Contents" class="text-danger"></span>
+                <label for="Contents">Contents</label>
+                <input type="text" id="Contents" name="Contents" class="form-control" />
             </div>
+
             <div class="form-group">
                 <label asp-for="Thumb" class="control-label"></label>
                 <input asp-for="Thumb" type="file" name="fThumb" class="form-control" />
@@ -35,15 +36,15 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
+                <label for="Author">Author</label>
+                <input type="text" id="Author" name="Author" class="form-control" />
             </div>
+
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
+                <label for="Tags">Tags</label>
+                <input type="text" id="Tags" name="Tags" class="form-control" />
             </div>
+
             <div class="form-group">
                 <label asp-for="CreatedDate" class="control-label"></label>
                 <input asp-for="CreatedDate" class="form-control" />
@@ -53,6 +54,25 @@
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
+           @* <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>*@
+           @* <div class="form-group">
+                <label for="CategoryName">Category</label>
+                <select id="CategoryName" name="CategoryName" asp-items="@ViewBag.CategoryName" class="form-control">
+                    @if (ViewBag.CategoryName != null && ViewBag.CategoryName != null)
+                    {
+                        <option value="@ViewBag.CategoryName" selected>@ViewBag.CategoryName</option>
+                    }
+                    else
+                    {
+                        <option value="0" selected>Danh Mục Gốc</option>
+                    }
+                </select>
+            </div>*@
+
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -67,9 +87,23 @@
                     </label>
                 </div>
             </div>
+
+            @*<div class="form-group">
+                <label for="AccountId">Account</label>
+                <select id="AccountId" asp-for="Account.AccountId" name="AccountId" class="form-control">
+                    @if (ViewBag.Account != null && ViewBag.Account.AccountId != null)
+                    {
+                        <option value="@ViewBag.Account.AccountId" selected>@ViewBag.AccountName</option>
+                    }
+                    else
+                    {
+                        <option value="0" selected>Default Account</option>
+                    }
+                </select>
+            </div>*@
             <div class="form-group">
                 <label asp-for="AccountId" class="control-label"></label>
-                <select asp-for="AccountId" name="AccountId" class="form-control" asp-items="ViewBag.AccountId"></select>
+                <select asp-for="AccountId" class="form-control" asp-items="ViewBag.AccountId"></select>
             </div>
             <div class="form-group">
                 <div class="checkbox">
@@ -78,8 +112,9 @@
                     </label>
                 </div>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

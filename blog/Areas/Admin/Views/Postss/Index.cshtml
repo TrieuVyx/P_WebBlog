@@ -1,0 +1,72 @@
+﻿@model PagedList.Core.IPagedList<blog.Models.Post>
+@using PagedList.Core.Mvc;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_content">
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <div style=" max-height: 500px;overflow-x: scroll;">
+                <table class="table table-striped jambo_table bulk_action" style="width:1800px">
+                    <thead>
+                        <tr class="headings">
+                            <th style="width: 150px;">Title</th>
+                            <th style="width: 250px;">Short Contents</th>
+                            <th style="width: 150px;">Author</th>
+                            <th style="width: 150px;">Tags</th>
+                            <th style="width: 150px;">Published</th>
+                            <th style="width: 150px;">Account</th>
+                            <th style="width: 400px;" class="text-wrap">Contents</th>
+                            <th style="width: 150px;">Thumb</th>
+                            <th style="width: 150px;">Alias</th>
+                            <th style="width: 150px;">Category</th>
+                            <th style="width: 150px;">CategoryId</th>
+                            <th style="width: 150px;">IsHot</th>
+                            <th style="width: 150px;">IsNewFeed</th>
+                            <th style="width: 150px;">CreatedDate</th>
+                            <th style="width: 150px;">Views</th>
+                            <th style="width: 150px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ShortContents)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Tags)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Published)</td>
+                                <td>@Html.DisplayFor(modelItem => item.AccountId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contents)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Thumb)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Alias)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IsHot)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IsNewFeed)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Views)</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.PostId" class="btn btn-success">Edit</a>
+                                        <a asp-action="Details" asp-route-id="@item.PostId" class="btn btn-warning">Details</a>
+                                        <a asp-action="Delete" asp-route-id="@item.PostId" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-action="Index" asp-controller="Postss" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

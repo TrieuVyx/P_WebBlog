@@ -14,11 +14,14 @@ using blog.Extension;
 using blog.Areas.Admin.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using PagedList.Core;
+using System.Drawing.Printing;
+using System.Data;
 
 namespace blog.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")] 
     
     public class AccountsController : Controller
     {
@@ -32,10 +35,10 @@ namespace blog.Areas.Admin.Controllers
         // GET: Admin/Accounts
         public async Task<IActionResult> Index()
         {
-            var blogDbContext = _context.Accounts.Include(a => a.Role);
-            return View(await blogDbContext.ToListAsync());
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+            var accounts = await _context.Accounts.ToListAsync();
+            return View(accounts);
         }
-
 
         // login
         [HttpGet]
@@ -50,58 +53,65 @@ namespace blog.Areas.Admin.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-      /*  [ValidateAntiForgeryToken]*/
-        [Route("dang-nhap.html", Name = "Login")]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
-        {
-            try
-            {
-                if(ModelState.IsValid)
-                {
-                    Account kh =  _context.Accounts.Include(p => p.Role).SingleOrDefault(p => p.Email.ToLower() == model.Email.ToLower().Trim());
-                    if(kh == null)
-                    {
-                        ViewBag.Error = "Thông tin đăng nhập chưa chính xác";
-                        return View(model);
-                    }
-                    string pass = (model.Password.Trim() + kh.Salt.Trim().ToMD5());
-                    if (kh.Password.Trim() != pass)
-                    {
-                        ViewBag.Error = "Thông tin đăng nhập chưa chính xác";
-                        return View(model);
-                    }
-                    kh.LastLogin = DateTime.Now;
-                    _context.Update(kh);
-                    await _context.SaveChangesAsync();
-                    var taiKhoanID = HttpContext.Session.GetString("AccountId");
-                    HttpContext.Session.SetString("AccountId", kh.AccountId.ToString());
-                    var userClaims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name,kh.FullName),
-                        new Claim(ClaimTypes.Email,kh.Email),
-                        new Claim("AccountId",kh.AccountId.ToString()),
-                        new Claim("RoleId",kh.RoleId.ToString()),
-                        new Claim(ClaimTypes.Role,kh.Role.RoleName)
-                    };
-                    var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
-                    var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
-                    await HttpContext.SignInAsync(userPrincipal);
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                }
-                return RedirectToAction("Index", "Home", new { Area = "Admin" });
+        /*  [ValidateAntiForgeryToken]*/
+        //[Route("dang-nhap.html", Name = "Login")]
+        //public async Task<IActionResult> Login() { 
 
-            }
-            catch
-            {
-              
-                return RedirectToAction("Login", "Accounts", new { Area = "Admin" });
+        //}
+        //public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            Account kh = _context.Accounts.Include(p => p.Role).SingleOrDefault(p => p.Email.ToLower() == model.Email.ToLower().Trim());
+        //            if (kh == null)
+        //            {
+        //                ViewBag.Error = "Thông tin đăng nhập chưa chính xác";
+        //                return View(model);
+        //            }
+        //            string pass = model.Password.Trim().ToMD5();
 
-            }
-      
-        }
+        //            if (kh.Password.Trim() != pass)
+        //            {
+        //                ViewBag.Error = "Thông tin đăng nhập chưa chính xác";
+        //                return View(model);
+        //            }
+        //            kh.LastLogin = DateTime.Now;
+
+        //            _context.Update(kh);
+        //            await _context.SaveChangesAsync();
+
+        //            var taiKhoanID = HttpContext.Session.GetString("AccountId");
+        //            HttpContext.Session.SetString("AccountId", kh.AccountId.ToString());
+
+        //            var userClaims = new List<Claim>
+        //            {
+        //                new Claim(ClaimTypes.Name,kh.FullName),
+        //                new Claim(ClaimTypes.Email,kh.Email),
+        //                new Claim("AccountId",kh.AccountId.ToString()),
+        //                new Claim("RoleId",kh.RoleId.ToString()),
+        //                new Claim(ClaimTypes.Role,kh.Role.RoleName)
+        //            };
+
+        //            var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
+        //            var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+        //            await HttpContext.SignInAsync(userPrincipal);
+        //            if (Url.IsLocalUrl(returnUrl))
+        //            {
+        //                return Redirect(returnUrl);
+        //            }
+        //        }
+        //        return RedirectToAction("Index", "Home", new { Area = "Admin" });
+        //    }
+        //    catch
+        //    {
+
+        //        return RedirectToAction("Login", "", new { Area = "Admin" });
+
+        //    }
+
+        //}
 
         [Route("dang-xuat.html", Name = "Logout")]
         public IActionResult logout()
@@ -110,14 +120,13 @@ namespace blog.Areas.Admin.Controllers
             {
                 HttpContext.SignOutAsync();
                 HttpContext.Session.Remove("AccountId");
-                return RedirectToAction("Index", "Home");   
+                return RedirectToAction("Login", "User");   
             }
             catch
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "User");
             }
         }
-
 
 
 
@@ -144,6 +153,7 @@ namespace blog.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId");
+            ViewData["RoleName"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             return View();
         }
 
@@ -152,19 +162,26 @@ namespace blog.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AccountId,FullName,Email,Phone,Password,Salt,Active,CreatedDate,LastLogin,RoleId")] Account account)
+        public async Task<IActionResult> Create([Bind("AccountId,FullName,Email,Phone,Password,Salt,Active,CreatedDate,LastLogin,RoleId, ProfileImage")] Account account)
         {
+           
+
             if (ModelState.IsValid)
             {
-                string salt = Utilities.GetRanDomKey(10);
-               string hashedPassword = Utilities.HashPassword(account.Password, salt,10);
+                List<Role> roles = _context.Roles.ToList();
+                ViewBag.Role = new SelectList(roles, "RoleId", "RoleName");
+
+                string ProfileImage = account.ProfileImage;
+                //string salt = Utilities.GetRanDomKey(10);
+                string hashedPassword = HashPasswordMD5.ToMD5(account.Password);
                 account.Password = hashedPassword;
-                account.Salt = salt;
+                //account.Salt = salt;
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+
             return View(account);
         }
     
@@ -175,13 +192,14 @@ namespace blog.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var account = await _context.Accounts.FindAsync(id);
             if (account == null)
             {
                 return NotFound();
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["RoleName"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.Role);
+            ViewData["RoleDescription"] = new SelectList(_context.Roles, "RoleId", "RoleDescription", account.Role);
             return View(account);
         }
 

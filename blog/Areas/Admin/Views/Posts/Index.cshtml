@@ -6,52 +6,23 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-
 <div class="col-md-12 col-sm-12 col-xs-12">
-
     <div class="x_panel">
-
         <div class="x_content">
-
             <a asp-action="Create" class="btn btn-primary">Create New</a>
             <div class="table-responsive">
-
                 <table class="table table-striped jambo_table bulk_action">
                     <thead>
-                        @foreach (var item in Model)
-                        {
-                            
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(modelitem => item.Title)
-
-                            </th>
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.ShortContents)
-                            
-                            </th>
-                       
-                      
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.Author)
-                          
-                            </th>
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.Tags)
-                            </th>
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.Published)
-                            </th>
-                       
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.Account)
-                            </th>
-                            <th>
-                                    @Html.DisplayNameFor(modelitem => item.Category)
-                            </th>
-                            <th>#</th>
+                        <tr class="headings">
+                            <th class="column-title">Title</th>
+                            <th class="column-title">Short Contents</th>
+                            <th class="column-title">Author</th>
+                            <th class="column-title">Tags</th>
+                            <th class="column-title">Published</th>
+                            <th class="column-title">Account</th>
+                            <th class="column-title">Category</th>
+                            <th class="column-title">#</th>
                         </tr>
-                        }
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
@@ -63,8 +34,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ShortContents)
                                 </td>
-                          
-                          
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Author)
                                 </td>
@@ -74,7 +43,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Published)
                                 </td>
-                            
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Account.FullName)
                                 </td>
@@ -84,7 +52,7 @@
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.PostId" class="btn btn-success">Edit</a>
                                     <a asp-action="Details" asp-route-id="@item.PostId" class="btn btn-warning">Details</a>
-                                    <a asp-action="Delete" asp-route-id="@item.PostId" class="btn btn-danger"> Delete</a>
+                                    <a asp-action="Delete" asp-route-id="@item.PostId" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         }

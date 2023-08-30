@@ -31,41 +31,48 @@ namespace blog.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
 
-                    b.Property<bool?>("Active")
+                    b.Property<bool>("Active")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RoleId")
                         .HasColumnType("int")
                         .HasColumnName("RoleID");
 
                     b.Property<string>("Salt")
-                        .HasMaxLength(10)
+                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(50)");
 
-                    b.HasKey("AccountId");
+                    b.HasKey("AccountId")
+                        .HasName("PK_Accounts");
 
                     b.HasIndex("RoleId");
 
@@ -85,20 +92,16 @@ namespace blog.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cover")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Levels")
                         .HasColumnType("int");
@@ -119,8 +122,7 @@ namespace blog.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Thumb")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -147,8 +149,7 @@ namespace blog.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Author")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int")
@@ -157,7 +158,7 @@ namespace blog.Migrations
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreateDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsHot")
@@ -183,6 +184,9 @@ namespace blog.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
+
                     b.HasKey("PostId");
 
                     b.HasIndex("AccountId");
@@ -202,12 +206,10 @@ namespace blog.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
 
                     b.Property<string>("RoleDescription")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RoleId");
 
@@ -229,12 +231,12 @@ namespace blog.Migrations
                     b.HasOne("blog.Models.Account", "Account")
                         .WithMany("Posts")
                         .HasForeignKey("AccountId")
-                        .HasConstraintName("FK_Posts_Account1");
+                        .HasConstraintName("FK_Posts_Account");
 
                     b.HasOne("blog.Models.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK_Posts_Category1");
+                        .HasConstraintName("FK_Posts_Category");
 
                     b.Navigation("Account");
 

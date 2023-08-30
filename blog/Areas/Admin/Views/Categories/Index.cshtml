@@ -1,17 +1,15 @@
-﻿@using PagedList.Core.Mvc;
-@model PagedList.Core.IPagedList<blog.Models.Category>
-
-
-
+﻿@model PagedList.Core.IPagedList<blog.Models.Category>
+@using PagedList.Core.Mvc;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>QUẢN LÝ DANH MỤC <small>Custom design</small></h2>
+            <h2>QUẢN LÝ DANH MỤC </h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -36,61 +34,61 @@
 
         <div class="x_content">
             <a asp-action="Create" class="btn btn-primary">Create New</a>
-            <div class="table-responsive">
+            <div style=" max-height: 500px; overflow-y: scroll;">
                 <table class="table table-striped jambo_table bulk_action">
                     <thead>
                         <tr class="headings">
-
-                            <th class="column-title">ID </th>
-                            <th class="column-title"> CategoryName </th>
-                            <th class="column-title"> Published </th>
-                            <th class="column-title"># </th>
+                            <th class="column-title">ID</th>
+                            <th class="column-title">Category Name</th>
+                            <th class="column-title">Published</th>
+                            <th class="column-title">Title</th>
+                            <th class="column-title">Alias</th>
+                            <th class="column-title">Meta Description</th>
+                            <th class="column-title">Meta Keywords</th>
+                            <th class="column-title">Thumbnail</th>
+                            <th class="column-title">Icon</th>
+                            <th class="column-title">Cover</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Actions</th>
                             <th class="bulk-actions" colspan="7">
                                 <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                             </th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         @if (Model != null && Model.Count() > 0)
                         {
                             foreach (var item in Model)
                             {
-
                                 <tr class="even pointer">
-
-                                    <th scope="row">@item.CategoryId</th>
-                                    <td>@item.CategoryName</td>
-                                    @if (item.Published)
-                                    {
-                                        <td>Public</td>
-                                        
-                                    }else{
-                                        <td>Private</td>
-                                    }
-                                    
-                                    
+                                    <td>@item.CategoryId</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Published)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Alias)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MetaDesc)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MetaKey)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Thumb)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Icon)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Cover)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-success">Edit</a>
                                         <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-warning">Details</a>
-                                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger"> Delete</a>
+                                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             }
                         }
-
-
-
                     </tbody>
                 </table>
             </div>
+            
             <div aria-label="Page navigation example">
                 <ul class="pagination">
                     <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-action="Index" asp-controller="Categories" />
                 </ul>
             </div>
-
         </div>
     </div>
 </div>

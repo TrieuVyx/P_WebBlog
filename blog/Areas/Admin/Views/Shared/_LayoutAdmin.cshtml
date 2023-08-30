@@ -10,8 +10,6 @@
     <title>Gentelella Wolf! | </title>
 
 
-
-
     <!-- Bootstrap -->
     <link href="~/adminaccess/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -32,14 +30,13 @@
     <link href="~/adminaccess/build/css/custom.min.css" rel="stylesheet">
  
 </head>
-
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                        <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -47,11 +44,28 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="~/adminaccess/images/img.jpg" alt="..." class="img-circle profile_img">
+                           @* @if (Model != null && !string.IsNullOrEmpty(@Model.FullName))
+                            {
+                                <img src=@Model.ProfileImage alt="..." class="img-circle profile_img">
+
+                            }
+                            else
+                            {
+                                
+                            }*@
+                                <img src="~/adminaccess/images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            @*@if (Model != null && !string.IsNullOrEmpty(@Model.FullName))
+                            {
+                                <h2>@Model.FullName</h2>
+                            }
+                            else
+                            {
+                                
+                            }*@
+                                <h2>JOIN</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -66,29 +80,30 @@
                                 <li>
                                     <a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="index.html">Dashboard</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a></li>
                                    
                                     </ul>
                                 </li>
+
                                 <li>
                                     <a><i class="fa fa-edit"></i> Bài viết <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a asp-area="Admin" asp-controller="Posts" asp-action="Index">Quản lý bài đăng</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Postss" asp-action="Index">Quản lý bài đăng</a></li>
                                     </ul>
                                 </li>
+
                                 <li>
                                     <a><i class="fa fa-desktop"></i> Hệ Thống <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-area="Admin" asp-controller="Accounts" asp-action="Index">Quản lý người dùng</a></li>
                                         <li><a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quản lý truy cập</a></li>
                                         <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index">Quản lý danh mục</a></li>
-                                      
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="tables.html">Tables</a></li>
+                                        <li><a href="#">Tables</a></li>
                                    
                                     </ul>
                                 </li>
@@ -96,7 +111,6 @@
                         
                             </ul>
                         </div>
-                 
 
                     </div>
                     <!-- /sidebar menu -->
@@ -111,7 +125,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <a asp-area=" " asp-controller="User" asp-action="Login">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -130,8 +144,20 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="~/adminaccess/images/img.jpg" alt="">John Doe
-                                    <span class=" fa fa-angle-down"></span>
+                                    @*@if (Model != null && !string.IsNullOrEmpty(@Model.FullName))
+                                    {
+                                        <img src=@Model.ProfileImage alt="">
+                                        <span>@Model.FullName</span>
+                                        <span class=" fa fa-angle-down"></span>
+                                    }
+                                    else
+                                    {
+
+                                    }*@
+                                        <img src="~/adminaccess/images/img.jpg" alt="">
+                                        <span>John Doe</span>
+                                        <span class=" fa fa-angle-down"></span>
+                                    
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
                                     <li><a href="javascript:;"> Profile</a></li>
@@ -142,7 +168,7 @@
                                         </a>
                                     </li>
                                     <li><a href="javascript:;">Help</a></li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                    <li><a asp-area="" asp-controller="User" asp-action="Login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
 

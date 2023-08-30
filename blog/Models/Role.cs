@@ -5,11 +5,12 @@ namespace blog.Models;
 
 public partial class Role
 {
-    public int RoleId { get; set; }
+    public int RoleId { get; set; } // ID của vai trò (role)
 
-    public string? RoleName { get; set; }
+    public string? RoleName { get; set; } // Tên của vai trò (role)
 
-    public string? RoleDescription { get; set; }
+    public string? RoleDescription { get; set; } // Mô tả về vai trò (role)
 
-    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>(); // Danh sách các tài khoản liên quan đến vai trò
+
 }

@@ -9,45 +9,36 @@ using blog.Models;
 using blog.Helpers;
 using PagedList.Core;
 using Microsoft.AspNetCore.Authorization;
+using Azure;
 
 namespace blog.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize()]
+    //[Authorize()]
     public class PostsController : Controller
     {
         private readonly BlogDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PostsController(BlogDbContext context)
+        public PostsController(BlogDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Admin/Posts
         public async Task<IActionResult> Index(int? page)
         {
-            if (!User.Identity.IsAuthenticated) Response.Redirect("/dang-nhap.html");
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null) return RedirectToAction("Login", "Accounts", new { Area = "Admin" });
-            var account = _context.Accounts.AsNoTracking().FirstOrDefault(x => x.AccountId == int.Parse(taikhoanID));
-            if (account == null) return NotFound();
-
-            List<Post> lsPost = new List<Post>();
-            var pageNumber = page == null || page <= 0 ? 1 :page.Value;
-            var pageSize = 5;
-            if(account.RoleId == 2)
+            string accountId = HttpContext.Session.GetString("AccountId");
+            if (!string.IsNullOrEmpty(accountId))
             {
-                lsPost = _context.Posts.Include(x => x.Account).Include(x => x.Category).Where(x => x.AccountId == account.AccountId).OrderByDescending(x => x.CategoryId).ToList();
+                var account = _context.Accounts.FirstOrDefault(a => a.AccountId.ToString() == accountId);
+                if (account != null)
+                {
+                    return View(account);
+                }
             }
-            else
-            {
-                lsPost = _context.Posts.Include(x => x.Account).Include(x => x.Category).OrderByDescending(x => x.CategoryId).ToList();
-            }
-
-         /*   var blogDbContext = _context.Posts.Include(p => p.Account).Include(p => p.Category);*/
-           /* return View(await blogDbContext.ToListAsync());*/
-            PagedList<Post> models = new PagedList<Post>(lsPost.AsQueryable(),pageNumber,pageSize);
-            return View(models);
+            return View();
         }
 
         // GET: Admin/Posts/Details/5
@@ -77,7 +68,7 @@ namespace blog.Areas.Admin.Controllers
             // kiểm tra quyền truy cập
             if (!User.Identity.IsAuthenticated) Response.Redirect("/dang-nhap.html");
             var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if(taikhoanID == null ) return RedirectToAction("Login", "Accounts", new {Area = "Admin"});
+            if(taikhoanID == null ) return RedirectToAction("Login", "User", new {Area = ""});
             ViewData["AccountId"] = new SelectList(_context.Accounts, "AccountId", "FullName");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
@@ -92,7 +83,7 @@ namespace blog.Areas.Admin.Controllers
         {
                 if (!User.Identity.IsAuthenticated) Response.Redirect("/dang-nhap.html");
                 var taikhoanID = HttpContext.Session.GetString("AccountId");
-                if (taikhoanID == null) return RedirectToAction("Login", "Accounts", new { Area = "Admin" });
+                if (taikhoanID == null) return RedirectToAction("Login", "User", new { Area = "" });
                 var account = _context.Accounts.AsNoTracking().FirstOrDefault(x => x.AccountId == int.Parse(taikhoanID));
             if (account == null) return NotFound();
             if (ModelState.IsValid)
@@ -158,8 +149,6 @@ namespace blog.Areas.Admin.Controllers
             {
                 if (post.AccountId != account.AccountId) return RedirectToAction(nameof(Index));
             }
-
-        
 
 
             if (ModelState.IsValid)

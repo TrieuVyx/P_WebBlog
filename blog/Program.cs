@@ -11,7 +11,17 @@ builder.Services.AddDbContext<BlogDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("connectDB"));
 });
-builder.Services.AddSession();
+
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "WebBlogSession";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
+
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddMemoryCache();
@@ -24,6 +34,7 @@ builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuth
     config.LogoutPath = "/dang-xuat.html";
     config.AccessDeniedPath = "/not-found.html";
 });
+
 builder.Services.ConfigureApplicationCookie(option =>
 {
     option.Cookie.HttpOnly = true;

@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form asp-action="Edit" method="post" asp-route-id="@Model.CategoryId" enctype="multipart/form-data">
+       @* <form asp-action="Edit" method="post" asp-route-id="@Model.CategoryId" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CategoryId" />
@@ -80,6 +80,91 @@
             </div>
             <div class="form-group col-md-12">
                 <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </form>*@
+        <form asp-action="Edit" method="post" asp-route-id="@Model.CategoryId" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label">TÊN DANH MỤC</label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="CategoryId" class="control-label">DANH MỤC</label>
+                <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.CategoryList">
+                    <option value="">Danh Mục Gốc</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Tiêu đề danh mục</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label">Phiên bản rút gọn</label>
+                <input asp-for="Alias" class="form-control" />
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaDesc" class="control-label">Mô tả meta</label>
+                <input asp-for="MetaDesc" class="form-control" />
+                <span asp-validation-for="MetaDesc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaKey" class="control-label">Từ khóa meta</label>
+                <input asp-for="MetaKey" class="form-control" />
+                <span asp-validation-for="MetaKey" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Thumb" class="control-label">Hình ảnh đại diện</label>
+                <input type="file" name="Thumb" class="form-control" />
+                <span asp-validation-for="Thumb" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Icon" class="control-label">Biểu tượng</label>
+                <input type="file" name="Icon" class="form-control" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cover" class="control-label">Hình ảnh bìa</label>
+                <input type="file" name="Cover" class="form-control" />
+                <span asp-validation-for="Cover" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Mô tả chi tiết</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Published" class="control-label">Đã xuất bản</label>
+                <input asp-for="Published" type="checkbox" />
+                <span asp-validation-for="Published" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Ordering" class="control-label">Thứ tự sắp xếp</label>
+                <input asp-for="Ordering" class="form-control" />
+                <span asp-validation-for="Ordering" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Levels" class="control-label">Số cấp độ</label>
+                <input asp-for="Levels" class="form-control" />
+                <span asp-validation-for="Levels" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
