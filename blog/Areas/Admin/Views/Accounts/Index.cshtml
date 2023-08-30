@@ -48,12 +48,12 @@
                             <th class="column-title">Active</th>
                             <th class="column-title">CreatedDate</th>
                             <th class="column-title">LastLogin</th>
-                            <th class="column-title">RoleName</th>
-                            <th class="column-title">RoleDescription</th>
+                            @*<th class="column-title">RoleName</th>
+                            <th class="column-title">RoleDescription</th>*@
                             <th class="column-title">Address</th>
                             <th class="column-title">RoleId</th>
                             <th class="column-title">Profile Image</th>
-                            <th class="column-title">Number of Posts</th>
+                            @*<th class="column-title">Number of Posts</th>*@
                             <th class="column-title">Actions</th>
                         </tr>
                     </thead>
@@ -70,12 +70,12 @@
                                 <td>@Html.DisplayFor(modelItem => item.Active)</td>
                                 <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
                                 <td>@Html.DisplayFor(modelItem => item.LastLogin)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Role.RoleName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Role.RoleDescription)</td>
+                                @*<td>@Html.DisplayFor(modelItem => item.Role.RoleName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Role.RoleDescription)</td>*@
                                 <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                 <td>@Html.DisplayFor(modelItem => item.RoleId)</td>
                                 <td><img src="@item.ProfileImage" alt="Profile Image" height="50" width="50"></td>
-                                <td>@item.Posts.Count</td>
+                                @*<td>@item.Posts.Count</td>*@
                                 <td>
                                     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.AccountId">Edit</a>
                                     <a class="btn btn-info" asp-action="Details" asp-route-id="@item.AccountId">Details</a>

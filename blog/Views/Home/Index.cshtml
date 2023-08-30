@@ -617,7 +617,15 @@
             @foreach (var post in Model.Posts)
             {
                 <div class="post-box tech">
-                    <img src=@post.Thumb alt="..." class="post-img">
+                    @if (!string.IsNullOrEmpty(post.Thumb))
+                    {
+                        <img src="@Url.Content("~/uploads/" + post.Thumb)" alt="" />
+                    }
+                        <img src=@post.Thumb alt="" />
+                    
+                    
+                   
+
                     <h2 class="category">@post.Category</h2>
                     <a href="#" class="post-title">@post.Title</a>
                     <span class="post-date">@post.CreatedDate</span>

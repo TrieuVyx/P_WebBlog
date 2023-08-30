@@ -1,5 +1,6 @@
 using blog.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -20,7 +21,6 @@ builder.Services.AddSession(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-
 
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();

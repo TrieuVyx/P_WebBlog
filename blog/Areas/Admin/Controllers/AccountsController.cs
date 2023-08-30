@@ -164,8 +164,6 @@ namespace blog.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AccountId,FullName,Email,Phone,Password,Salt,Active,CreatedDate,LastLogin,RoleId, ProfileImage")] Account account)
         {
-           
-
             if (ModelState.IsValid)
             {
                 List<Role> roles = _context.Roles.ToList();

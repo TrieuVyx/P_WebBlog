@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using blog.Helpers;
+using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Hosting;
 
 namespace blog.Areas.Admin.Controllers
 {
@@ -84,29 +87,43 @@ namespace blog.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Post post)
+        public async Task<IActionResult> Create(Post post, IFormFile fThumb, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Đưa dữ liệu vào ViewBag
-                    var taikhoanid = HttpContext.Session.GetString("AccountId");
-                    var accountid = _context.Accounts.FirstOrDefault(x => x.AccountId == int.Parse(taikhoanid));
-                    post.AccountId = accountid.AccountId;
-                    _context.Posts.Add(post);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Đã xảy ra lỗi khi tạo bài viết: " + ex.Message);
-                }
+                return View(post);
             }
-            return View(post);
-        }
 
+            var taikhoanid = HttpContext.Session.GetString("AccountId");
+            var accountid = _context.Accounts.FirstOrDefault(x => x.AccountId == int.Parse(taikhoanid));
+            post.AccountId = accountid?.AccountId;
+
+            if (fThumb != null && fThumb.Length > 0)
+            {
+                string fileName = Path.GetFileName(fThumb.FileName);
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await fThumb.CopyToAsync(stream);
+                }
+
+                post.Thumb = fileName;
+            }
+
+            try
+            {
+                _context.Posts.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Đã xảy ra lỗi khi tạo bài viết: " + ex.Message);
+                return View(post);
+            }
+        }
         private List<string> GetCategoriesFromDataSource()
         {
             throw new NotImplementedException();
@@ -132,7 +149,7 @@ namespace blog.Areas.Admin.Controllers
         // POST: Admin/Posts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Post updatedPost)
+        public async Task<IActionResult> Edit(int id, Post updatedPost, IFormFile fThumb, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
             // Kiểm tra tính hợp lệ của ModelState
             if (ModelState.IsValid)
@@ -140,7 +157,7 @@ namespace blog.Areas.Admin.Controllers
                 try
                 {
                     var existingPost = await _context.Posts.FindAsync(id);
-                    // Kiểm tra xem bài viết có tồn tại không
+
                     if (existingPost != null)
                     {
                         existingPost.Title = updatedPost.Title;
@@ -160,6 +177,29 @@ namespace blog.Areas.Admin.Controllers
                         existingPost.Account = updatedPost.Account;
                         existingPost.Category = updatedPost.Category;
 
+                        if (fThumb != null && fThumb.Length > 0)
+                        {
+                            string fileName = Path.GetFileName(fThumb.FileName);
+                            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+                            string filePath = Path.Combine(uploadsFolder, fileName);
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await fThumb.CopyToAsync(stream);
+                            }
+
+                            // Xóa tập tin hình ảnh cũ (nếu có)
+                            if (!string.IsNullOrEmpty(existingPost.Thumb))
+                            {
+                                string oldFilePath = Path.Combine(uploadsFolder, existingPost.Thumb);
+                                if (System.IO.File.Exists(oldFilePath))
+                                {
+                                    System.IO.File.Delete(oldFilePath);
+                                }
+                            }
+
+                            existingPost.Thumb = fileName;
+                        }
 
                         // Lưu các thay đổi vào cơ sở dữ liệu
                         await _context.SaveChangesAsync();
@@ -176,6 +216,7 @@ namespace blog.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Đã xảy ra lỗi khi cập nhật bài viết: " + ex.Message);
                 }
             }
+
             return View(updatedPost);
         }
         // GET: Admin/Posts/Delete/5

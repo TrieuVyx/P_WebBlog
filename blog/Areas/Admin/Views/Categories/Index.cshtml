@@ -45,9 +45,9 @@
                             <th class="column-title">Alias</th>
                             <th class="column-title">Meta Description</th>
                             <th class="column-title">Meta Keywords</th>
-                            <th class="column-title">Thumbnail</th>
+                            @*<th class="column-title">Thumbnail</th>
                             <th class="column-title">Icon</th>
-                            <th class="column-title">Cover</th>
+                            <th class="column-title">Cover</th>*@
                             <th class="column-title">Description</th>
                             <th class="column-title">Actions</th>
                             <th class="bulk-actions" colspan="7">
@@ -68,9 +68,9 @@
                                     <td>@Html.DisplayFor(modelItem => item.Alias)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MetaDesc)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MetaKey)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Thumb)</td>
+                                   @* <td>@Html.DisplayFor(modelItem => item.Thumb)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Icon)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Cover)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Cover)</td>*@
                                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-success">Edit</a>
